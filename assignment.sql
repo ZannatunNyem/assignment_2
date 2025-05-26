@@ -80,3 +80,26 @@ JOIN rangers ON sightings.ranger_id = rangers.ranger_id
 JOIN species ON sightings.species_id = species.species_id
 ORDER BY sightings.sighting_time DESC
 LIMIT 2;
+
+-------problem-7-----
+UPDATE species
+SET conservation_status = 'Historic'
+WHERE discovery_date < '1800-01-01';
+
+-------problem-8-----
+CREATE OR REPLACE VIEW sighting_time_of_day AS
+SELECT
+    sighting_id,
+    CASE
+        WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
+        WHEN EXTRACT(HOUR FROM sighting_time) < 18 THEN 'Afternoon'
+        ELSE 'Evening'
+    END AS time_of_day
+FROM sightings;
+SELECT * FROM sighting_time_of_day;
+-------problem-9-----
+
+DELETE FROM rangers
+WHERE ranger_id NOT IN (
+    SELECT ranger_id FROM sightings
+);
