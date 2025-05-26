@@ -13,6 +13,8 @@ INSERT INTO rangers (name, region) VALUES
 
 SELECT * FROM rangers;
 
+DROP TABLE rangers;
+
 --TABLE-2 species--
 CREATE TABLE species(
     species_id SERIAL PRIMARY KEY,
@@ -48,7 +50,6 @@ INSERT INTO sightings (species_id, ranger_id, location, sighting_time) VALUES
 
 SELECT * FROM sightings;
 DROP TABLE sightings;
-
 -------problem-1-----
 INSERT INTO rangers (name, region)
 VALUES ('Derek Fox', 'Coastal Plains');
@@ -64,14 +65,14 @@ WHERE location LIKE '%Pass%';
 -------problem-4-----
 SELECT name, COUNT(DISTINCT sightings.sighting_id) AS total_sightings
 FROM sightings
-JOIN "rangers" ON "rangers".ranger_id = sightings.ranger_id
+JOIN rangers ON rangers.ranger_id = sightings.ranger_id
 GROUP BY name;
 
 -------problem-5-----
 SELECT species.common_name
 FROM species
-LEFT JOIN "sightings" ON species.species_id = "sightings".species_id
-WHERE "sightings".species_id IS NULL;
+LEFT JOIN sightings ON species.species_id = sightings.species_id
+WHERE sightings.species_id IS NULL;
 
 -------problem-6-----
 SELECT species.common_name, sightings.sighting_time, rangers.name
@@ -87,19 +88,14 @@ SET conservation_status = 'Historic'
 WHERE discovery_date < '1800-01-01';
 
 -------problem-8-----
-CREATE OR REPLACE VIEW sighting_time_of_day AS
-SELECT
-    sighting_id,
-    CASE
-        WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
-        WHEN EXTRACT(HOUR FROM sighting_time) < 18 THEN 'Afternoon'
-        ELSE 'Evening'
-    END AS time_of_day
-FROM sightings;
-SELECT * FROM sighting_time_of_day;
+CREATE OR REPLACE VIEW time_of_day AS
+SELECT sighting_id,
+CASE WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
+WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
+ELSE 'Evening'
+END AS time_of_day FROM sightings;
 -------problem-9-----
 
 DELETE FROM rangers
-WHERE ranger_id NOT IN (
-    SELECT ranger_id FROM sightings
-);
+WHERE ranger_id NOT IN (SELECT ranger_id FROM sightings);
+
