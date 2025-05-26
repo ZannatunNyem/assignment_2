@@ -75,8 +75,7 @@ LEFT JOIN sightings ON species.species_id = sightings.species_id
 WHERE sightings.species_id IS NULL;
 
 -------problem-6-----
-SELECT species.common_name, sightings.sighting_time, rangers.name
-FROM sightings
+SELECT species.common_name, sightings.sighting_time, rangers.name FROM sightings
 JOIN rangers ON sightings.ranger_id = rangers.ranger_id
 JOIN species ON sightings.species_id = species.species_id
 ORDER BY sightings.sighting_time DESC
