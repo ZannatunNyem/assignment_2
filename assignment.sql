@@ -52,3 +52,17 @@ DROP TABLE sightings;
 -------problem-1-----
 INSERT INTO rangers (name, region)
 VALUES ('Derek Fox', 'Coastal Plains');
+
+-------problem-2-----
+SELECT count(DISTINCT species_id) AS unique_species_count
+FROM sightings;
+
+-------problem-3-----
+SELECT * FROM sightings 
+WHERE location LIKE '%Pass%';
+
+-------problem-4-----
+SELECT name, COUNT(DISTINCT sightings.sighting_id) AS total_sightings
+FROM sightings
+JOIN "rangers" ON "rangers".ranger_id = sightings.ranger_id
+GROUP BY name;
