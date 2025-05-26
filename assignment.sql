@@ -21,7 +21,7 @@ CREATE TABLE species(
     common_name VARCHAR(100),
     scientific_name VARCHAR(150),
     discovery_date DATE,
-    conservation_status VARCHAR(50)
+    conservation_status VARCHAR(100)
 );
 INSERT INTO species (species_id, common_name, scientific_name, discovery_date, conservation_status) 
 VALUES
@@ -93,6 +93,7 @@ CASE WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
 WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
 ELSE 'Evening'
 END AS time_of_day FROM sightings;
+SELECT * FROM time_of_day;
 -------problem-9-----
 
 DELETE FROM rangers
