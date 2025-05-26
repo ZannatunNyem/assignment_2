@@ -48,3 +48,7 @@ INSERT INTO sightings (species_id, ranger_id, location, sighting_time) VALUES
 
 SELECT * FROM sightings;
 DROP TABLE sightings;
+
+-------problem-1-----
+INSERT INTO rangers (name, region)
+VALUES ('Derek Fox', 'Coastal Plains');
